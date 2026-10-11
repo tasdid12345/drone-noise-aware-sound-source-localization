@@ -1,0 +1,40 @@
+{
+  "question": "Can a rotor-noise-whitened frequency-domain localizer beat a standard SRP-PHAT localizer at finding the direction of a sound source from a simulated quadcopter microphone array across low-SNR and varying rotor-speed conditions?",
+  "method": "Numpy simulation of an 8-mic drone array, far-field broadband source and near-field rotor noise (4 rotors, harmonics + broadband), SNR -20..0 dB, rotor speeds 80-200 Hz. Same STFT features and 1-degree azimuth grid for both methods; noise covariance from separate noise-only calibration clips. Mean over 3 seeds (each regenerates the data).",
+  "dataset": {
+    "name": "Simulated quadcopter microphone-array clips (stand-in)",
+    "source_url": "simulated in numpy/scipy (no download)",
+    "n_rows": 400,
+    "n_train": 300,
+    "n_test": 100,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "Mean absolute azimuth error (degrees)",
+  "higher_is_better": false,
+  "baseline": "Standard SRP-PHAT azimuth scan (frame-wise PHAT-normalised cross-spectra, summed over 200-5000 Hz bins).",
+  "improved": "Per-bin whitening with a rotor-noise spatial covariance from noise-only calibration clips (diagonal loading chosen by 3-fold CV on train), then a whitened, per-bin-normalised beamformer-power (MVDR/MUSIC-style) scan.",
+  "metrics": {
+    "baseline_score": 28.140941984273564,
+    "baseline_score_std": 3.28663746931208,
+    "baseline_acc10": 0.6233333333333334,
+    "baseline_acc10_std": 0.018856180831641284,
+    "baseline_mae_snr-20": 64.49843220457774,
+    "baseline_mae_snr-15": 58.64171407956519,
+    "baseline_mae_snr-10": 16.61844463600094,
+    "baseline_mae_snr-5": 0.6241680280104198,
+    "baseline_mae_snr0": 0.3219509732135212,
+    "improved_score": 0.25343303632733777,
+    "improved_score_std": 0.011369625910069977,
+    "improved_acc10": 1.0,
+    "improved_acc10_std": 0.0,
+    "improved_mae_snr-20": 0.25294909598192267,
+    "improved_mae_snr-15": 0.23791747710343603,
+    "improved_mae_snr-10": 0.26434228190046344,
+    "improved_mae_snr-5": 0.27727398175738865,
+    "improved_mae_snr0": 0.23468234489347806,
+    "improvement": 27.887508947946227,
+    "improvement_acc10": 0.3766666666666666
+  },
+  "notes": "Simulated stand-in, not the paper's dataset; results depend on the simulator assumptions (free-field propagation, no reverberation, fixed rotor geometry shared by calibration and test). Calibration uses 4 discrete rotor speeds; test speeds are continuous. Selected loading per seed: [0.001, 0.001, 0.001]. Models are deterministic; std is across 3 data seeds. SNR is source power vs total rotor-noise power per microphone. The loading CV is on labelled training clips; the noise covariance is not fit on them."
+}
