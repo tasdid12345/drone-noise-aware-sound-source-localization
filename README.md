@@ -24,6 +24,37 @@ python analysis.py
 ## Results
 Results are written to `results.json` (and a chart to `figures/`).
 
+## Results (latest run)
+
+On a simulated quadcopter microphone-array dataset (100 held-out test clips, SNR −20 to 0 dB), a standard SRP-PHAT localization method had a mean absolute azimuth error of 28.14°, while my noise-whitened beamformer reached 0.25°, though this is a simulator stand-in with no reverberation.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 28.14 |
+| baseline_score_std | 3.287 |
+| baseline_acc10 | 0.6233 |
+| baseline_acc10_std | 0.01886 |
+| baseline_mae_snr-20 | 64.5 |
+| baseline_mae_snr-15 | 58.64 |
+| baseline_mae_snr-10 | 16.62 |
+| baseline_mae_snr-5 | 0.6242 |
+| baseline_mae_snr0 | 0.322 |
+| improved_score | 0.2534 |
+| improved_score_std | 0.01137 |
+| improved_acc10 | 1 |
+| improved_acc10_std | 0 |
+| improved_mae_snr-20 | 0.2529 |
+| improved_mae_snr-15 | 0.2379 |
+| improved_mae_snr-10 | 0.2643 |
+| improved_mae_snr-5 | 0.2773 |
+| improved_mae_snr0 | 0.2347 |
+| improvement | 27.89 |
+| improvement_acc10 | 0.3767 |
+
+Run on 2026-10-11. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Simulated stand-in, not the paper's dataset; results depend on the simulator assumptions (free-field propagation, no reverberation, fixed rotor geometry shared by calibration and test). Calibration uses 4 discrete rotor speeds; test speeds are continuous. Selected loading per seed: [0.001, 0.001, 0.001]. Models are deterministic; std is across 3 data seeds. SNR is source power vs total rotor-noise power per microphone. The loading CV is on labelled training clips; the noise covariance is not fit on them.
+
 ## Reference
 
 This project is motivated by the following paper:
